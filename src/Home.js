@@ -1,11 +1,13 @@
 import React from "react";
-import app from "./base";
+import {auth} from "./base";
 
 const Home = () => {
+  console.log(auth.currentUser)
   return (
     <>
       <h1>Home</h1>
-      <button onClick={() => app.auth().signOut()}>Sign out</button>
+      Hello {auth.currentUser.email}
+      <button onClick={() => auth.signOut()}>Sign out</button>
     </>
   );
 };

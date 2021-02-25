@@ -1,21 +1,32 @@
 import React, { useCallback, useContext } from "react";
 import { withRouter, Redirect } from "react-router";
-import app from "./base.js";
+import firebase , {auth} from "./base.js";
 import { AuthContext } from "./Auth.js";
 
 const Login = ({ history }) => {
+
+  const provider = new firebase.auth.GoogleAuthProvider()
+  provider.setCustomParameters({prompt: 'select_account'})
+  const signInWithGoogle = () => auth.signInWithPopup(provider);
+
+  const handleGoogle = (event) => {
+      console.log(event.target)
+      signInWithGoogle();
+  }
+
   const handleLogin = useCallback(
     async event => {
       event.preventDefault();
-      const { email, password } = event.target.elements;
-      try {
-        await app
-          .auth()
-          .signInWithEmailAndPassword(email.value, password.value);
-        history.push("/");
-      } catch (error) {
-        alert(error);
-      }
+      console.log("button", event)
+      // const { email, password } = event.target.elements;
+      // try {
+      //   await app
+      //     .auth()
+      //     .signInWithEmailAndPassword(email.value, password.value);
+      //   history.push("/");
+      // } catch (error) {
+      //   alert(error);
+      // }
     },
     [history]
   );
@@ -40,6 +51,7 @@ const Login = ({ history }) => {
         </label>
         <button type="submit">Log in</button>
       </form>
+      <button onClick={handleGoogle}>Login with google</button>
     </div>
   );
 };
